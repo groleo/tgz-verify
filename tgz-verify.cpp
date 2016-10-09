@@ -109,14 +109,16 @@ public:
     {
         int len = 0;
         uint8_t *public_key = nullptr;
-        int rv;
-        X509_CTX x509_ctx = {0};
+        int rv = 0;
+        X509_CTX x509_ctx;
         int offset = 0;
 
         assert(_key_name!=nullptr);
         assert(_dgstD==nullptr);
         assert(_sizeof_pkcs_modulo!=(off_t)-1);
         assert(_sig!=nullptr);
+
+        memset(&x509_ctx,0,sizeof(x509_ctx));
 
         len = get_file(_key_name, &public_key);
         if (len<=0)
@@ -147,12 +149,16 @@ public:
     {
         int rv=0;
         uint8_t buf[512];
-        SHA256_CTX sha256_ctx={0};
-        uint8_t sha256_dgst[SHA256_SIZE]={0};
+        SHA256_CTX sha256_ctx;
+        uint8_t sha256_dgst[SHA256_SIZE];
 
         assert(_fd!=-1);
         assert(_sig_off!=(off_t)-1);
         assert(_dgstC==nullptr);
+
+        memset(buf, 0, sizeof(buf));
+        memset(&sha256_ctx, 0, sizeof(sha256_ctx));
+        memset(sha256_dgst, 0, sizeof(sha256_dgst));
 
         if (lseek(_fd, 0, SEEK_SET)==(off_t)-1)
         {

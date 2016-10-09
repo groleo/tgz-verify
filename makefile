@@ -7,7 +7,7 @@ all: tgz-verify id_rsa.pub.der $(SIGNED)
 	LD_LIBRARY_PATH=../INSTALL/lib ./tgz-verify $(SIGNED) id_rsa.pub.der
 
 tgz-verify: tgz-verify.cpp id_rsa.pub.der
-	g++ -pedantic -Wall -Werror -DDEBUG -O0 -g -L../INSTALL/lib -laxtls -I../INSTALL/include $< -o $@
+	g++ -pedantic -Werror=nonnull -Wextra -Wnarrowing -Wall -Werror -DDEBUG -O0 -g -L../INSTALL/lib -laxtls -I../INSTALL/include $< -o $@
 
 privatekey.pem:
 	# create the OpenSSL key pair
